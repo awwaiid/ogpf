@@ -17,64 +17,55 @@ type t =
   | Terminal of string
 
 let terminal_set = [
-    "1"; "2"; "3"; "4";
+    "1";
     "x";
   ]
 
 let nonterminal_set = [
     ("+",2);
+    ("-",2);
     ("*",2);
-    ("if",3);
+    ("%",2);
+    ("sin",1);
   ]
 
-let rec print = function
-    Terminal(v) -> print_string v
+(* shortcut -- get the lengths of these things *)
+let nt_set_size = List.length nonterminal_set
+let t_set_size = List.length terminal_set
+
+
+let rec to_string = function
+    Terminal(v) -> v
   | NonTerminal(v,l) ->
-    print_string "(";
-    print_string v;
-    
+    (* flatten the parameter list, add spaces between each *)
+    let p = List.fold_left (fun x y -> x ^ " " ^ (to_string y)) "" l in
+    "(" ^ v ^ p ^ ")"
+
+let print g = print_string (to_string g)
+
+(* TODO: replace this with a real one! *)
+let of_string s = List.nth terminal_set 0
+
 (* TODO: implement actuall crossover *)
 let combine a b = a
 
-let rec rand' depth =
-  if depth == 0 then
-    let max = List.length terminal_set in
-    List.nth terminal_set (Random.int max)
-  else
-    let max = List.length nonterminal_set in
-    let n = Random.int max in
-    let (t, p) = list.nth n nonterminal_set in
+let rec make_list f = function
+  | 0 -> [f()]
+  | n -> f()::(make_list f (n - 1))
 
-let rec randInstance' n nt_set_size t_set_size =
-  if n > 1 then
-    let (nonterm, np) = List.nth (Random.int nt_set_size) nonterminal_set in
-    let randTree n nt_set_size t_set_size = function
-      | 0 -> []
-      | _ as x -> List.nth (Random.int 
-      
-    let child_list = 
+(* This takes one variable, the depth *)
+and randInstance = function
 
+  (* no depth, so just give back a terminal *)
+  | 0 -> Terminal(List.nth terminal_set (Random.int t_set_size))
 
-
-let randInstance' n nt_set_size t_set_size =
-
-  let rand_terminal() =
-    Terminal( List.nth (Random.int t_set_size))
-  in
-    
-  let rec rNode = function
-    | 0 -> rand_terminal()
-    | _ as n ->
-      let x = Random.int (nt_set_size + t_set_size) in
-      if x >= nt_set_size then
-        rand_terminal()
-      else
-        let (nonterm, num_params) = List.nth nt_set_size nonterminal_set in
-        
-
-let randInstance n =
-  let nt_set_size = List.length nonterminal_set in
-  let t_set_size = List.length terminal_set in
-
-
+  (* Otherwise lets build some stuff *)
+  | _ as n ->
+    let x = Random.int (nt_set_size + t_set_size) in
+    if x >= nt_set_size then
+      Terminal(List.nth terminal_set (x - nt_set_size))
+    else
+      let (nonterm, num_params) = List.nth nonterminal_set x in
+      let l = make_list (fun () -> randInstance (n - 1)) num_params in
+      NonTerminal(nonterm, l)
 

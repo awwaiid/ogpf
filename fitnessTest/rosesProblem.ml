@@ -59,8 +59,8 @@ module Make ( Genotype: Genotype.Sig ) = struct
   (* Calculate the edit-distance between two strings *)
   (* Including transpositions, insertions, and deletions *)
   let diff a b =
-    let len_a = Genotype.length a in
-    let len_b = Genotype.length b in
+    let len_a = String.length (Genotype.to_string a) in
+    let len_b = String.length (Genotype.to_string b) in
     diff' (Genotype.to_string a) (Genotype.to_string b) len_a len_b
 
 

@@ -5,10 +5,10 @@ module type Sig = sig
   val randInstance: int -> t
   val print: t -> unit
   val to_string: t -> string
-  val length: t -> int
-  val at: t -> int -> char
   val of_string: string -> t
-  val to_string: t -> string
+
+  (* wonder what this was for? *)
+  (* val at: t -> int -> char *)
 end
 
 

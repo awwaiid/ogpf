@@ -10,6 +10,7 @@ SOURCES =
 # Genotypes
 SOURCES += genotype/genotype.ml
 SOURCES += genotype/stringGenotype.ml
+SOURCES += genotype/ftreeGenotype.ml
 
 # Population Controllers
 SOURCES += pop/population.ml
