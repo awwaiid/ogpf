@@ -51,9 +51,10 @@ module Make
         Population.add_member pop c
 
       (* Check to see if our population is too big. If it is, DEATH TIME! *)
-      else if Population.size pop > (popSize + (popSize / 2)) then
-        let c = Genotype.combine a (Genotype.randInstance 6) in
-        Population.add_member pop c
+      else if Population.size pop > popSize then
+        (* let c = Genotype.combine a (Genotype.randInstance 6) in
+        Population.add_member pop c *)
+        Population.add_member pop a
 
       (* If member 'a' is too crappy, kill it *)
       (*
@@ -62,7 +63,8 @@ module Make
       *)
 
       (* If 'a' is better than 'b' then lets just keep 'a' *)
-      else if a_val < b_val && Random.int 100 < 25 then begin
+      (*else if a_val < b_val && Random.int 100 < 25 then begin *)
+      else if a_val < b_val then begin
           Population.add_member pop a
 
       (* if 'a' is worse than 'b' then breed them, maybe 'b's goodness will wear
@@ -132,9 +134,7 @@ module Make
     print_int (Population.size p);
     print_newline();
     Population.print p;
-    print_newline();
-    print_string "Doing 1000 iterations...";
-    print_newline();
+    Printf.printf "\nDoing %d iterations...\n" parameter.generations;
     let p = n_iterations p parameter.generations in
     print_string "New population:\n";
     Population.print p;

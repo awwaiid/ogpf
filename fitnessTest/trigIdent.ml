@@ -40,14 +40,16 @@ module Make ( Genotype: Fgenotype.Sig ) = struct
     print_newline(); *)
     let total = ref 0 in
     let pi = 4.0 *. atan 1.0 in
-    for i = 0 to 20 do
+    let n = 100 in
+    for i = 0 to n do
       let x = Random.float (2.0 *. pi) in
-      let target = cos (2.0 *. x) in
+      (* let target = cos (2.0 *. x) in *)
+      let target = cos x in
       let result = eval x g in
       let diff = abs_float (target -. result) in
-      let hit = (diff <= 0.01) in
+      let hit = (diff <= 0.001) in
       if hit then begin
-        (* print_string "HIT!";
+        (*print_string "HIT!";
         print_string "  x: \t";
         print_float x;
         print_string "\n  target: \t";
@@ -60,7 +62,7 @@ module Make ( Genotype: Fgenotype.Sig ) = struct
         total := !total + 1
       end
     done;
-    (20 - !total)
+    (n - !total)
     (* print_string "TOTAL: ";
     print_int !total;
     print_string "\t";

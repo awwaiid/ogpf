@@ -19,23 +19,17 @@ module Make ( Genotype: Genotype.Sig ) = struct
   (* For now we'll just use a list *)
   type m = Genotype.t
   type 'a t = 'a GrabBag.t
-  (*type t = Genotype.t GrabBag.t
-  and m = Genotype.t *)
 
   (* Return an empty population *)
   let empty = GrabBag.empty
 
   (* Generate a new population from random genomes *)
   let rec populate size : 'a t =
-(*    if (size == 42) then GrabBag.add (populate (size - 1)) (Genotype.of_string "Roses") else *)
     if (size == 0) then empty
     else GrabBag.add (populate (size - 1)) (Genotype.randInstance 5)
 
   (* Calculate the size of the population *)
   let size pop = GrabBag.size pop
-
-(*  let m_to_raw (x:m) : Genotype.t = x
-  let m_of_raw (x: Genotype.t) : m = x *)
 
   (* Grab a random member of the population *)
   let pull_rand_member pop =
@@ -75,8 +69,6 @@ module Make ( Genotype: Genotype.Sig ) = struct
     print_float ((float sum) /. (float total));
     print_newline()
 
-  (* let print_species g = *)
-    
 end
 
 
