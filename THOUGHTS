@@ -1,0 +1,94 @@
+
+2004.01.10
+----------
+
+I was just contemplating my structure and wondering where I would put a
+specific problem's function specifications, in the case that there are
+non-standard ones provided. For example, where would I put the built-in board
+accessor functions for a tic-tac-toe game?
+
+One thing which I realized is how to separate genotype from genotype in this
+structure. The genotype module should contain only functions for manipulating
+the actual _data_ of the genotype, excluding all functions for actually
+executing the program or transforming it into an executable form. This
+executable or transforming part instead takes place in what is now called the
+problem specification, though as I define its exact responsibilities it may be
+renamed or split.
+
+So the problem specification does one very important thing: given a genome (or
+two) it decided the value of that individual. It may do this by executing it as
+a program in a specific context, or by transforming it into an evaluatable form
+(or both). Thus the actual execution of a genotype belongs to this section of
+the code. The only issue is that this will be very similar between different
+problems, with only a few things changing. One of the things I've been trying
+to attain in this framework is to separate often-changing code from
+rarely-changing code, so I would like to work out a way to do the same here.
+Also the genotype is more closely tied to this unchanging portion, a tie that
+basically makes the two go hand-in-hand (change one and you must change the
+other).
+
+Due to their entwined nature, I am tempted to just leave the terminal
+specification in the genotype... but that just seems wrong. Maybe I can make a
+separate module that they share.
+
+
+2003.12.12
+----------
+
+Here is an outline of the new structure of the OGPF
+
+  I. Genotype Specification
+        A. Genotype type definition
+        B. Mutation operator
+        C. Combination operator
+        D. Randomly generate individual
+  II. Population Specification
+        A. Population storage datatype
+        B. Populate storage with random individuals
+        C. Add members to population
+        D. Remove members from population
+        E. Statistics
+              1. Max/min fitness
+  III. Problem Specification
+        A. Fitness test
+        B. End-of-run termination test
+  IV. Run Specification
+        A. Specify genotype type
+        B. Specify population type
+        C. Specify problem
+        D. Parameters for run
+              1. Population size (max/min)
+              2. Max generations
+              3. Random individual depth
+              4. Mutation rate
+              5. Crossover rate
+
+
+2003.07.26
+----------
+
+So I've been thinking about species networks and thought I'd record some of my
+thoughts. I did a writeup the other day but the more I write it the better, I
+think.
+
+So a Species Network (SN) is an extension of a program tree. If you were to
+take a program tree, and then at some nodes make it so that there are options
+as to what goes there. If that makes any sense at all. You could effectively
+take a program tree and do some transformations on it, but keep the original
+and put the whole thing into one network. Each transformation you perform would
+multiply the number of program trees the SN encodes, since the transformations
+could then be compounded.
+
+So the idea is to have a handful of Species Networks, each with a handful of
+rendered versions. The SN is a genotype, and the rendered tree is a phenotype.
+Actually the rendered tree can be described by a list of integers to indicate
+which branches are to be taken. Thus we have a compact representation. Though
+we still need to render the tree to execute it. Eh.
+
+Then if one species' population grows to over a certain size, say 50% of the
+overall population, then that SN is split and one of them is brutally mutated.
+
+You see, one way of creating a SN is to take a single phenotype and then add to
+the tree a bunch of neutral transforms. Hm. I wonder if it would even be worth
+the effort of creating such neutral transforms.
+
