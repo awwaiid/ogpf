@@ -23,6 +23,24 @@ module Make
   open RunParameters
   let popSize = parameter.max_population
 
+  let best_fitness = ref 1000000
+  let best_g = ref (Genotype.randInstance 2)
+
+  module StringSet = Set.Make(
+    struct type t = string let compare = compare end
+  )
+
+  let rec unique_members' pop  =
+    if pop == Population.empty then StringSet.empty
+    else
+      let a, pop = Population.pull_rand_member pop in
+      let a = Genotype.to_string a in
+      StringSet.add a (unique_members' pop)
+
+  let unique_members pop =
+    let set = unique_members' pop in
+    StringSet.cardinal set
+
   let one_iteration pop =
     (*try *)
       (* First we pull two random members of the population *)
@@ -43,6 +61,16 @@ module Make
         exit 0
       end;
 
+      if (a_val < !best_fitness) then begin
+        best_fitness := a_val;
+        best_g := a;
+      end;
+
+      if (b_val < !best_fitness) then begin
+        best_fitness := b_val;
+        best_g := b;
+      end;
+
       (* Check to see if our population is too small. If it is, BREED TIME! *)
       if Population.size pop < (popSize / 2) then
         let c = Genotype.combine a b in
@@ -51,7 +79,7 @@ module Make
         Population.add_member pop c
 
       (* Check to see if our population is too big. If it is, DEATH TIME! *)
-      else if Population.size pop > popSize then
+      else if Population.size pop > popSize then begin
         (* let c = Genotype.combine a (Genotype.randInstance 6) in
         Population.add_member pop c *)
         Population.add_member pop a
@@ -63,8 +91,8 @@ module Make
       *)
 
       (* If 'a' is better than 'b' then lets just keep 'a' *)
-      (*else if a_val < b_val && Random.int 100 < 25 then begin *)
-      else if a_val < b_val then begin
+      end else if a_val < b_val && Random.int 100 < 25 then begin
+      (*else if a_val < b_val then begin *)
           Population.add_member pop a
 
       (* if 'a' is worse than 'b' then breed them, maybe 'b's goodness will wear
@@ -89,7 +117,7 @@ module Make
     (* with _ -> pop *)
 
   let rec best_val pop =
-    if pop == Population.empty then (Genotype.randInstance 6), 1000
+    if pop == Population.empty then (Genotype.randInstance 6), 1000000
     else
       let g1, pop = Population.pull_rand_member pop in
       let v1 = FitnessTest.getFitness g1 in
@@ -108,11 +136,13 @@ module Make
         print_int n;
         print_string "\tsize: ";
         print_int size;
+        print_string "\tUnique: ";
+        print_int (unique_members pop);
         print_string "\tBest: ";
-        let g, v = best_val pop in
-        print_int v;
+  (*      let g, v = best_val pop in *)
+        print_int (!best_fitness);
         print_string "\t\t";
-        Genotype.print g;
+        Genotype.print !best_g;
         print_newline()
         (* ignore (Unix.system (
           "echo \""

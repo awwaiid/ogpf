@@ -1,4 +1,6 @@
 
+(* All genotypes must implement these basic things *)
+
 module type Sig = sig
   type t
   val combine: t -> t -> t
@@ -6,9 +8,5 @@ module type Sig = sig
   val print: t -> unit
   val to_string: t -> string
   val of_string: string -> t
-
-  (* wonder what this was for? *)
-  (* val at: t -> int -> char *)
 end
-
 

@@ -9,15 +9,22 @@ It is also an experiment for myself in an extremely functorized programming
 style. I am still working out both the details of the style and the structure
 of the framework. All input is welcomed.
 
+Documentation
+-------------
+Since nobody uses this except for me right now, all documentation is on my
+website. Once there is enough documentation and enough interest, I will create
+snapshots of the content there and drop it into this distribution. But for now
+just see http://tlt42.org/wiki.pl/OGPF.
+
 Copying
 -------
-Copyright (C) 2001, Brock Wilcox
-Released under the terms of the GPL
+Copyright (C) 2001,2002,2003,2004, Brock Wilcox.
+Released under the terms of the GNU GPL.
 I don't want anyone to have licensing trouble. If you do contact me.
 
 Contact
 -------
 Brock Wilcox
-http://thelackthereof.org
+http://thelackthereof.org/
 awwaiid@thelackthereof.org
 

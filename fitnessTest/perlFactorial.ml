@@ -2,13 +2,12 @@
 module Make ( Genotype: Fgenotype.Sig ) = struct
 
   type t = Genotype.t
-  open Genotype
   exception Error of string
 
   let getFitness (g:t) =
-    (* print_string "Evaluating...\n";
+    print_string "Evaluating...\n";
     Genotype.print g;
-    print_newline(); *)
+    print_newline();
     let total = ref 0.0 in
     let pi = 4.0 *. atan 1.0 in
     let n = 100 in

@@ -10,24 +10,17 @@
  *     - Created
  *)
 
+open RunParameters
 
 (* The core type, this must be named "t" *)
 type t =
     NonTerminal of string * (t list)
   | Terminal of string
 
-let terminal_set = [
-    "1";
-    "x";
-  ]
+exception Error of string
 
-let nonterminal_set = [
-    ("+",2);
-    ("-",2);
-    ("*",2);
-    ("%",2);
-    ("sin",1);
-  ]
+(* terminal_set and nonterminal_set are now defined in RunParameters
+   for this genotype! *)
 
 (* shortcut -- get the lengths of these things *)
 let nt_set_size = List.length nonterminal_set
@@ -37,8 +30,14 @@ let rec to_string = function
     Terminal(v) -> v
   | NonTerminal(v,l) ->
     (* flatten the parameter list, add spaces between each *)
-    let p = List.fold_left (fun x y -> x ^ " " ^ (to_string y)) "" l in
-    "(" ^ v ^ p ^ ")"
+    if List.length l = 2 then
+      Printf.sprintf "(%s %s %s)"
+        (to_string (List.nth l 0))
+        v
+        (to_string (List.nth l 1))
+    else
+      let p = List.fold_left (fun x y -> x ^ " " ^ (to_string y)) "" l in
+      "(" ^ v ^ p ^ ")"
 
 let print g = print_string (to_string g)
 
@@ -94,7 +93,8 @@ let nth tree n =
   let (n, tree) = nth' n [tree] in
   tree
 
-(* grab a random subset of b and stick it somewhere in a *)
+(* grab a random subset of b and stick it somewhere in a.  This does a uniform
+crossover, each node has an equal chance of being selected. *)
 let combine a b =
   let a_size = num_nodes a in
   let b_size = num_nodes b in
@@ -123,4 +123,35 @@ and randInstance = function
       let (nonterm, num_params) = List.nth nonterminal_set x in
       let l = make_list (fun () -> randInstance (n - 1)) num_params in
       NonTerminal(nonterm, l)
+
+let rec eval x = function
+  | Terminal(t) -> begin
+    match t with
+    | "1" -> 1.0
+    | "x" -> x
+    | _ -> raise (Error "invalid genome!")
+    end
+  | NonTerminal(v,l) ->
+    match v, l with
+    | "+", a::b::_ ->
+      (eval x a) +. (eval x b)
+    | "-", a::b::_ ->
+      (eval x a) -. (eval x b)
+    | "*", a::b::_ ->
+      (eval x a) *. (eval x b)
+    | "%", a::b::_ ->
+      let b = eval x b in
+      if b = 0.0 then 0.0 else
+        (eval x a) /. b
+    | "sin", a::_ ->
+      sin (eval x a)
+    | "if", a::b::c::_ ->
+      if (eval x a) > 0.0 then (eval x b) else (eval x c)
+    | ">", a::b::_ ->
+      if (eval x a) > (eval x b) then 1.0 else 0.0
+    | "<", a::b::_ ->
+      if (eval x a) < (eval x b) then 1.0 else 0.0
+    | "=", a::b::_ ->
+      if (eval x a) = (eval x b) then 1.0 else 0.0
+    | _,_ -> raise (Error ("invalid genome!" ^ v))
 
