@@ -1,31 +1,13 @@
 
 OGPF - OCaml Genetic Programming Framework
-
-This is a library for genetic programming in OCaml. It is structured so that a
-wide variety of genetic programming (population-based algorithms, actuall)
+------------------------------------------
+This is a framework for genetic programming in OCaml. It is structured so that
+a wide variety of genetic programming (population-based algorithms, actually)
 projects can be easily composed.
 
-Thoughts [2003.12.20]
----------------------
-I'm making a snapshot -- the framework itself working. I have it doing my
-stupid string evolution, which it hasn't yet completed. The cards are stacked
-against the algo since deletions are easy but insertions nearly impossible. eh.
-
-Thoughts [2003.03.22]
----------------------
-Well, after a slight haiatus (ha!) I'm back at hacking on this thing. I've
-finally taken the time to figure out how to work modules properly to do the
-things I want to do. So far there are two pieces I've been working on,
-stringGeotype.ml and pop.ml. The Pop module just holds a population, allowing
-you to pull things out and put things in. The StringGenotype holds my first
-evolving genomtype, in this case a simple string. The immediate goal is to do a
-simple evolution from a randomly generated string to a specific static string.
-The StringGenotype itself holds how to mutate and combine strings. There will
-be one more class which then manages the population from generation to
-generation. The combination and mutation code is definately genotype dependent,
-but I'm not so sure that the code belongs in the genome itself since I will
-most likely want to experiment on different mutation and combination routines
-for the same genotype.
+It is also an experiment for myself in an extremely functorized programming
+style. I am still working out both the details of the style and the structure
+of the framework. All input is welcomed.
 
 Copying
 -------

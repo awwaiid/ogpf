@@ -7,6 +7,9 @@ OCAMLMAKEFILE = OcamlMakefile
 
 SOURCES =
 
+# Parameters
+SOURCES += run/runParameters.ml
+
 # Genotypes
 SOURCES += genotype/genotype.ml
 SOURCES += genotype/fgenotype.ml

@@ -19,7 +19,9 @@ module Make
   ( FitnessTest: FitnessTest.Sig with type t = Genotype.t)
   = struct
 
-  let popSize = 350
+  (* let popSize = 350 *)
+  open RunParameters
+  let popSize = parameter.max_population
 
   let one_iteration pop =
     (*try *)
@@ -93,9 +95,10 @@ module Make
       if v1 < v2 then g1, v1 else g2, v2
 
   let rec n_iterations pop n =
-    if n > 500000 then pop
+    if n = 0 then pop
     else begin
       if n mod popSize == 0 then begin
+        let n = parameter.generations - n in
         print_string "  generation #";
         let size = Population.size pop in
         print_int (n / popSize);
@@ -120,7 +123,7 @@ module Make
         )) *)
       end;
       let pop = one_iteration pop in
-      n_iterations pop (n + 1)
+      n_iterations pop (n - 1)
     end
 
   (* Main routine *)
@@ -132,7 +135,7 @@ module Make
     print_newline();
     print_string "Doing 1000 iterations...";
     print_newline();
-    let p = n_iterations p 0 in
+    let p = n_iterations p parameter.generations in
     print_string "New population:\n";
     Population.print p;
     print_newline()
