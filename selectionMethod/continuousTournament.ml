@@ -19,7 +19,7 @@ module Make
   ( FitnessTest: FitnessTest.Sig with type t = Genotype.t)
   = struct
 
-  let popSize = 300
+  let popSize = 350
 
   let one_iteration pop =
     (*try *)
@@ -33,7 +33,10 @@ module Make
 
       (* Check to see if the first one is the winner *)
       if a_val == 0 then begin
-        print_string "Found Winner!";
+        print_string "Found Winner!\nWinner: ";
+        Genotype.print a;
+        print_string "\nValue: ";
+        print_int a_val;
         print_newline();
         exit 0
       end;
@@ -57,7 +60,7 @@ module Make
       *)
 
       (* If 'a' is better than 'b' then lets just keep 'a' *)
-      else if a_val < b_val && Random.int 100 < 75 then begin
+      else if a_val < b_val && Random.int 100 < 25 then begin
           Population.add_member pop a
 
       (* if 'a' is worse than 'b' then breed them, maybe 'b's goodness will wear
@@ -77,7 +80,7 @@ module Make
           let c = Genotype.combine a b in
           let pop = Population.add_member pop a in
           let pop = Population.add_member pop b in
-          let c = Genotype.combine c (Genotype.randInstance 6) in
+          let c = Genotype.combine c (Genotype.randInstance 2) in
           Population.add_member pop c
     (* with _ -> pop *)
 
@@ -105,7 +108,8 @@ module Make
         print_int v;
         print_string "\t\t";
         Genotype.print g;
-        ignore (Unix.system (
+        print_newline()
+        (* ignore (Unix.system (
           "echo \""
           ^ (string_of_int n)
           ^ "\t"
@@ -113,7 +117,7 @@ module Make
           ^ "\t"
           ^ (string_of_int v)
           ^ "\" >> stats.txt"
-        ))
+        )) *)
       end;
       let pop = one_iteration pop in
       n_iterations pop (n + 1)

@@ -23,6 +23,8 @@ let intro () = print_string (
   ^ "\n"
   ^ "See gpl.txt for copyright information.\n\n")
 
+(* module Genotype = CGenotype.Make (Genotype) (FitnessTest) *)
+
 (* First we'll create a population module for the desired genotype *)
 module Population = Pop.Make (Genotype)
 

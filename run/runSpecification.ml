@@ -21,10 +21,12 @@ let parameter = {
    worry about are the genotype and the selection mechanism. These are not very
    tightly coupled to each other, so you should have a pretty wide range of
    possible combinations. *)
-module Genotype = StringGenotype
+(* module Genotype = StringGenotype *)
+module Genotype = FuncTree
 module SelectionMethod = ContinuousTournament
 
 (* Last but not least you get to specify the problem itself. This will be
    closely tied to the genotype. *)
-module FitnessTest = RosesProblem
+(*module FitnessTest = RosesProblem*)
+module FitnessTest = TrigIdent
 

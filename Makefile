@@ -9,8 +9,9 @@ SOURCES =
 
 # Genotypes
 SOURCES += genotype/genotype.ml
-SOURCES += genotype/stringGenotype.ml
-SOURCES += genotype/ftreeGenotype.ml
+SOURCES += genotype/fgenotype.ml
+#SOURCES += genotype/stringGenotype.ml
+SOURCES += genotype/funcTree.ml
 
 # Population Controllers
 SOURCES += pop/population.ml
@@ -18,9 +19,10 @@ SOURCES += pop/grabBag.ml
 SOURCES += pop/pop.ml
 
 # Fitness Tests (problems)
-SOURCES += fitnessTest/soundex.ml
+#SOURCES += fitnessTest/soundex.ml
 SOURCES += fitnessTest/fitnessTest.ml
-SOURCES += fitnessTest/rosesProblem.ml
+#SOURCES += fitnessTest/rosesProblem.ml
+SOURCES += fitnessTest/trigIdent.ml
 
 # Selection Methods
 SOURCES += selectionMethod/selectionMethod.ml
