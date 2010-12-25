@@ -20,7 +20,8 @@ module Make
   = struct
 
   (* let popSize = 350 *)
-  open RunParameters
+  open Parameters
+  (* open Run *)
   let popSize = parameter.max_population
 
   let best_fitness = ref 1000000
