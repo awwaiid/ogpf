@@ -19,9 +19,7 @@ module Make
   ( FitnessTest: FitnessTest.Sig with type t = Genotype.t)
   = struct
 
-  (* let popSize = 350 *)
   open Parameters
-  (* open Run *)
   let popSize = parameter.max_population
 
   let best_fitness = ref 1000000
