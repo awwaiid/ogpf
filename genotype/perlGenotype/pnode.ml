@@ -21,6 +21,7 @@ type pnode =
   | ListAt    of string * block (* array name, locs *)
   | Loop      of string * block * block * block
               (* name     parms   iftrue  iffalse *)
+  | Lambda    of string * block
   | Nothing
 
 and block = pnode list
@@ -39,6 +40,7 @@ and depth = function
   | ListAt(name,loc) -> 1 + (max_depth loc)
   | Loop(name,params,iftrue,iffalse) ->
     1 + (max (max_depth params) (max (max_depth iftrue) (max_depth iffalse)))
+  | Lambda(name, body) -> 1 + (max_depth body)
   | Nothing -> 1
 
 let rec block_num_nodes = function
@@ -56,6 +58,7 @@ and num_nodes = function
     1 + (block_num_nodes params)
       + (block_num_nodes iftrue)
       + (block_num_nodes iffalse)
+  | Lambda(name,body) -> 1 + (block_num_nodes body)
   | Nothing -> 1
 
 let rec pp_string_block pad = function
@@ -91,9 +94,11 @@ and pp_string node pad =
   | ListVar(name) -> sprintf "@%s" name (* "$VARIABLE" *)
   | Const(s) -> sprintf "\"%s\"" s
   | ListAt(name, loc) -> sprintf "$%s%s" name
-    (pp_string_arrayloc pad loc)
-    (* (pp_string_arrayloc pad loc) *)
+      (pp_string_arrayloc pad loc)
+  | Lambda(name, body) -> sprintf "%ssub %s {\n%s\n%s}"
+      pad name (pp_string_block npad body) pad
   | Nothing -> ""
+  | _ -> ""
 
 let pp_string_program prog =
   sprintf "\n# Converted with mperl\n\n\n%s\n\n"

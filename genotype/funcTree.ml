@@ -10,7 +10,7 @@
  *     - Created
  *)
 
-open RunParameters
+open Parameters
 
 (* The core type, this must be named "t" *)
 type t =

@@ -46,6 +46,7 @@ rule token = parse
   | '-' { BINARY_OP("-") }
   | '*' { BINARY_OP("*") }
   | '/' { BINARY_OP("/") }
+  | '.' { BINARY_OP(".") }
 (*  | '%' { BINARY_OP("%") }
   | '>' { BINARY_OP(">") }
   | '<' { BINARY_OP("<") }

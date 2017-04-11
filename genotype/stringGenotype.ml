@@ -10,6 +10,7 @@
 type t = string
 
 open Printf
+open Parameters
 
 let first_half_of a =
   let l = String.length a in
@@ -48,7 +49,7 @@ let to_string g =
   g
 
 let point_mutate g =
-  while Random.int 100 < 60 do
+  while Random.int 100 < parameter.point_mutate_percent do
     let len = String.length g in
     let new_char = rand_char() in
     let loc = Random.int len in
@@ -64,7 +65,11 @@ let crossover' a b =
     let cut_len = Random.int ((String.length b) + 1) in
     let sub_b = String.sub b cut_len (String.length b) in
     let new_gene = sub_a ^ sub_b in
-    if String.length new_gene == 0 then a
+    printf "Crossover:\n\tA: [%s]\tB: [%s]\tResult: [%s]\n"
+      a b new_gene;
+    if String.length new_gene == 0
+(*     then a *)
+    then (point_mutate a)
     else (point_mutate new_gene)
   with _ -> a
 

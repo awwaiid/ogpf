@@ -26,7 +26,7 @@ module Make ( Genotype: Genotype.Sig ) = struct
   (* Generate a new population from random genomes *)
   let rec populate size : 'a t =
     if (size == 0) then empty
-    else GrabBag.add (populate (size - 1)) (Genotype.randInstance 5)
+    else GrabBag.add (populate (size - 1)) (Genotype.randInstance 3)
 
   (* Calculate the size of the population *)
   let size pop = GrabBag.size pop

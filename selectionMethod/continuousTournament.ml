@@ -90,12 +90,14 @@ module Make
       *)
 
       (* If 'a' is better than 'b' then lets just keep 'a' *)
-      end else if a_val < b_val && Random.int 100 < 25 then begin
+(*       end else if a_val < b_val && Random.int 100 < 25 then begin *)
+      end else if a_val < (b_val - 15) then begin
       (*else if a_val < b_val then begin *)
           Population.add_member pop a
 
       (* if 'a' is worse than 'b' then breed them, maybe 'b's goodness will wear
          off on 'a' *)
+(*       end else if a_val > b_val && Random.int 100 < 25 then *)
       end else if a_val > b_val then
         let c = Genotype.combine a b in
         (*let pop = Population.add_member pop a in *)

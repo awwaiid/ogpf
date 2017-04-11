@@ -15,6 +15,7 @@
 module Make ( Genotype: Genotype.Sig ) = struct
 
   type t = Genotype.t
+  open Printf
 
   let target = Genotype.of_string "Roses are red."
 
@@ -65,7 +66,9 @@ module Make ( Genotype: Genotype.Sig ) = struct
 
 
   let getFitness (g:t) =
-    diff g target
+    let d = diff g target in
+(*     printf "Fitness: %d\n" d; *)
+    d
 
 (*  let getFitness (g:t) =
     Soundex.compare (Genotype.to_string g) (Genotype.to_string target) *)
